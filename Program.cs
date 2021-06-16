@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Il2CppTypesProcessor
 {
@@ -61,7 +62,7 @@ namespace Il2CppTypesProcessor
                 File.WriteAllText(Path.Combine(structOut, firstFileVersion + ".h"), prevStructText);
                 foreach (var valueTuple in dict[structName])
                 {
-                    if (valueTuple.StructText == prevStructText) continue;
+                    if (EqualsIgnoringWhitespace(valueTuple.StructText, prevStructText)) continue;
                     
                     prevStructText = valueTuple.StructText;
                     File.WriteAllText(Path.Combine(structOut, valueTuple.VersionInfo + ".h"), prevStructText);
@@ -141,6 +142,12 @@ namespace Il2CppTypesProcessor
             {
                 return myVersion.ToString() + mySuffix + mySuffixNumber;
             }
+        }
+
+        private static readonly Regex SpaceRegex = new("\\s");
+        private static bool EqualsIgnoringWhitespace(string a, string b)
+        {
+            return SpaceRegex.Replace(a, "") == SpaceRegex.Replace(b, "");
         }
 
         private static string ExtractStructFromFile(string file, string structName)
