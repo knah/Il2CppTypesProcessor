@@ -1,0 +1,2 @@
+This tool scans version-named header files (such as [these](https://github.com/nneonneo/Il2CppVersions/tree/master/headers)), extracts struct definitions from them, and produces files where a given struct was changed compared to previous versions.  
+This is useful for developing tools that interact with IL2CPP, such as the [Unhollower](https://github.com/knah/Il2CppAssemblyUnhollower)
